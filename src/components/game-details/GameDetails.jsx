@@ -1,28 +1,61 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import request from "../../utils/request";
+
 export default function GameDetails() {
+    const { gameId } = useParams();
+    const navigate = useNavigate();
+    const [game, setGame] = useState(null);
+
+    useEffect(() => {
+        request(`/games/${gameId}`)
+            .then(result => {
+                console.log(result[0])
+            })
+            .catch(error => alert(error));
+    }, [gameId])
+
+    const deleteGameClickHandler = async (e) => {
+        e.preventDefault()
+
+        const confirm = confirm(`Are you sure you want to delete ${game.title} game?`);
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await request(`/games?id=eq.${gameId}`, 'DELETE');
+        } catch (err) {
+            alert(err);
+        }
+        
+    }
+
     return (
         <section id="game-details">
             <h1>Game Details</h1>
             <div className="info-section">
 
                 <div className="header-and-image">
-                    <img className="game-img" src="images/elden ring.png" alt="Elden Ring Cover Art" />
+                    <img className="game-img" src={game.imageUrl} alt={game.title} />
 
                     <div className="meta-info">
-                        <h1 className="game-name">Elden Ring</h1>
+                        <h1 className="game-name">{game.title}</h1>
 
                         <p className="data-row">
                             <span className="label">Genre:</span>
-                            <span className="value">Action RPG</span>
+                            <span className="value">{game.genre}</span>
                         </p>
 
                         <p className="data-row">
                             <span className="label">Active Players:</span>
-                            <span className="value">100000</span>
+                            <span className="value">{game.activePlayers}</span>
                         </p>
 
                         <p className="data-row">
                             <span className="label">Release Date:</span>
-                            <span className="value">2022-02-25</span>
+                            <span className="value">{game.releaseDate}</span>
                         </p>
                     </div>
                     <div className="summary-section">
@@ -38,7 +71,7 @@ export default function GameDetails() {
 
                 <div className="buttons">
                     <a href="#" className="button">Edit</a>
-                    <a href="#" className="button">Delete</a>
+                    <a href="#" className="button" onClick={deleteGameClickHandler}>Delete</a>
                 </div>
 
                 <div className="details-comments">
