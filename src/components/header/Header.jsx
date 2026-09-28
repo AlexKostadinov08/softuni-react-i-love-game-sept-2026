@@ -8,7 +8,7 @@ export default function Header() {
                 <Link to="/" className="home"> <img src="./images/logo.png" alt="logo" /> </Link>
                 
 
-                <Link to="/catalog">Catalog </Link>
+                <Link to="/catalog">Catalog</Link>
 
                 {/* Logged-in users */}
                 <div id="user">

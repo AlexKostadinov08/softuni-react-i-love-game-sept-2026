@@ -9,7 +9,7 @@ export default function GameCard(
             <div className="details-overlay">
                 <p className="name">{title}</p>
                 <p className="genre">{genre}</p>
-                <a href="#" className="details-button">Details</a>
+                <Link to={`/games/${id}/details`} className="details-button">Details</Link>
             </div>
         </div>
     );
